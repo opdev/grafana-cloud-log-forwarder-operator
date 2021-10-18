@@ -1,0 +1,8 @@
+apiVersion: grafana.example.com/v1alpha1
+kind: GrafanaCloudLogForwarder
+metadata:
+  name: grafanacloudlogforwarder-sample
+spec:
+  secretname: "loki1"
+  username: "yoza"
+  apipassword: "test"
