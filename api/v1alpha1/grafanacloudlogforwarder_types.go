@@ -26,14 +26,17 @@ import (
 // GrafanaCloudLogForwarderSpec defines the desired state of GrafanaCloudLogForwarder
 type GrafanaCloudLogForwarderSpec struct {
 
-	// Secret name that will be used for storing the loki username and API Key
-	SecretName string `json:"secretname"`
+	// // Secret name that will be used for storing the loki username and API Key
+	// SecretName string `json:"secretname"`
 
 	// The username from the loki endpoint
 	Username string `json:"username"`
 
 	// Enter API key to authenticate clusterLogForwarder to loki datasource
 	APIPassword string `json:"apipassword"`
+
+	// URL to loki datasource
+	URL string `json:"url"`
 }
 
 // GrafanaCloudLogForwarderStatus defines the observed state of GrafanaCloudLogForwarder
@@ -45,7 +48,6 @@ type GrafanaCloudLogForwarderStatus struct {
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
-
 // GrafanaCloudLogForwarder is the Schema for the grafanacloudlogforwarders API
 type GrafanaCloudLogForwarder struct {
 	metav1.TypeMeta   `json:",inline"`

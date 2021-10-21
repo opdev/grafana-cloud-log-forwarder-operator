@@ -42,16 +42,15 @@ spec:
                 description: Enter API key to authenticate clusterLogForwarder to
                   loki datasource
                 type: string
-              secretname:
-                description: Secret name that will be used for storing the loki username
-                  and API Key
+              url:
+                description: URL to loki datasource
                 type: string
               username:
                 description: The username from the loki endpoint
                 type: string
             required:
             - apipassword
-            - secretname
+            - url
             - username
             type: object
           status:

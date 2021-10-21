@@ -20,6 +20,7 @@ import (
 	"context"
 	"time"
 
+	loggingv1 "github.com/openshift/cluster-logging-operator/apis/logging/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
@@ -77,7 +78,7 @@ func (r *GrafanaCloudLogForwarderReconciler) Reconcile(ctx context.Context, req 
 
 	secretSet := grafanaCloudLogForwarder
 	foundSecret := &corev1.Secret{}
-	err = r.Get(ctx, types.NamespacedName{Name: grafanaCloudLogForwarder.Spec.SecretName, Namespace: grafanaCloudLogForwarder.Namespace}, foundSecret)
+	err = r.Get(ctx, types.NamespacedName{Name: "loki1", Namespace: grafanaCloudLogForwarder.Namespace}, foundSecret)
 	if err != nil {
 		if errors.IsNotFound(err) {
 			// Define a new Secret object
@@ -101,12 +102,60 @@ func (r *GrafanaCloudLogForwarderReconciler) Reconcile(ctx context.Context, req 
 		return ctrl.Result{}, err
 	}
 
+	loggingSet := grafanaCloudLogForwarder
+	logging := &loggingv1.ClusterLogging{}
+	err = r.Get(ctx, types.NamespacedName{Name: "instance", Namespace: grafanaCloudLogForwarder.Namespace}, logging)
+	if err != nil {
+		if errors.IsNotFound(err) {
+
+			loggingInstance := r.clusterLoggingForGrafanaCloud(grafanaCloudLogForwarder)
+			//error in controller reference
+			if err := controllerutil.SetControllerReference(loggingSet, loggingInstance, r.Scheme); err != nil {
+				return ctrl.Result{}, err
+			}
+
+			log.Info("Creating a new loggingInstance.", "loggingInstance.Namespace", loggingInstance.Namespace, "loggingInstance.Name", loggingInstance.Name)
+			err = r.Create(ctx, loggingInstance)
+			if err != nil {
+				log.Error(err, "Failed to create new loggingInstance.", loggingInstance)
+				return ctrl.Result{}, err
+			}
+
+			return ctrl.Result{RequeueAfter: defaulRetryPeriod}, nil
+		}
+		log.Error(err, "Failed to get ClusterLogging")
+		return ctrl.Result{}, err
+	}
+
+	logForward := &loggingv1.ClusterLogForwarder{}
+	err = r.Get(ctx, types.NamespacedName{Name: "instance", Namespace: grafanaCloudLogForwarder.Namespace}, logForward)
+	if err != nil {
+		if errors.IsNotFound(err) {
+
+			logForwardingInstance := r.clusterLogForwarderForGrafanaCloud(grafanaCloudLogForwarder)
+			if err := controllerutil.SetControllerReference(loggingSet, logForwardingInstance, r.Scheme); err != nil {
+				return ctrl.Result{}, err
+			}
+
+			log.Info("Creating a new logForwarderInstance.", "loggingInstance.Namespace", logForwardingInstance.Namespace, "loggingInstance.Name", logForwardingInstance.Name)
+			err = r.Create(ctx, logForwardingInstance)
+			if err != nil {
+				log.Error(err, "Failed to create new logForwarderInstance.", logForwardingInstance)
+				return ctrl.Result{}, err
+			}
+
+			return ctrl.Result{RequeueAfter: defaulRetryPeriod}, nil
+		}
+		log.Error(err, "Failed to get ClusterLogForwarder")
+		return ctrl.Result{}, err
+	}
+
 	return ctrl.Result{RequeueAfter: defaulRetryPeriod}, nil
 }
 
 func (r *GrafanaCloudLogForwarderReconciler) newSecretForCR(gclf *grafanav1alpha1.GrafanaCloudLogForwarder) *corev1.Secret {
 	labels := map[string]string{
-		"app": gclf.Spec.SecretName,
+		"app": "loki1",
 	}
 	data := make(map[string][]byte)
 	data["username"] = []byte(gclf.Spec.Username)
@@ -114,7 +163,7 @@ func (r *GrafanaCloudLogForwarderReconciler) newSecretForCR(gclf *grafanav1alpha
 
 	secretObject := &corev1.Secret{
 		TypeMeta:   metav1.TypeMeta{Kind: "Secret", APIVersion: "v1"},
-		ObjectMeta: metav1.ObjectMeta{Name: gclf.Spec.SecretName, Namespace: gclf.Namespace, Labels: labels},
+		ObjectMeta: metav1.ObjectMeta{Name: "loki1", Namespace: gclf.Namespace, Labels: labels},
 		Immutable:  new(bool),
 		Data:       data,
 	}
@@ -122,10 +171,110 @@ func (r *GrafanaCloudLogForwarderReconciler) newSecretForCR(gclf *grafanav1alpha
 	return secretObject
 }
 
+func (r *GrafanaCloudLogForwarderReconciler) clusterLoggingForGrafanaCloud(gclf *grafanav1alpha1.GrafanaCloudLogForwarder) *loggingv1.ClusterLogging {
+
+	clusterlogging := &loggingv1.ClusterLogging{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "instance",
+			Namespace: gclf.Namespace,
+		},
+		Spec: loggingv1.ClusterLoggingSpec{
+			ManagementState: "Managed",
+			Collection: &loggingv1.CollectionSpec{
+				Logs: loggingv1.LogCollectionSpec{
+					Type: loggingv1.LogCollectionTypeFluentd,
+				},
+			},
+			// LogStore: &loggingv1.LogStoreSpec{
+			// 	ElasticsearchSpec: loggingv1.ElasticsearchSpec{
+			// 		NodeCount:        3,
+			// 		RedundancyPolicy: "SingleRedundancy",
+			// 	},
+			// 	RetentionPolicy: &loggingv1.RetentionPoliciesSpec{
+			// 		App: &loggingv1.RetentionPolicySpec{
+			// 			MaxAge: "7d",
+			// 		},
+			// 	},
+			// 	Type: loggingv1.LogStoreTypeElasticsearch,
+			// },
+
+			// Visualization: &loggingv1.VisualizationSpec{
+			// 	Type: loggingv1.VisualizationTypeKibana,
+			// },
+		},
+	}
+	return clusterlogging
+}
+
+func (r *GrafanaCloudLogForwarderReconciler) clusterLogForwarderForGrafanaCloud(gclf *grafanav1alpha1.GrafanaCloudLogForwarder) *loggingv1.ClusterLogForwarder {
+
+	clusterLogForwarder := &loggingv1.ClusterLogForwarder{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "instance",
+			Namespace: gclf.Namespace,
+		},
+		Spec: loggingv1.ClusterLogForwarderSpec{
+			Outputs: []loggingv1.OutputSpec{{
+				Name: "loki-secure",
+				URL:  gclf.Spec.URL,
+				//add URL to types.go
+				Type: "loki",
+				OutputTypeSpec: loggingv1.OutputTypeSpec{
+					Loki: &loggingv1.Loki{
+						TenantKey: "kubernetes.namespace_name",
+						LabelKeys: []string{"kubernetes.labels.foo"},
+					},
+				},
+				Secret: &loggingv1.OutputSecretSpec{
+					Name: "loki1",
+					// hardcode secretname
+				},
+			},
+			},
+			Pipelines: []loggingv1.PipelineSpec{{
+				Name:       "application-logs",
+				InputRefs:  []string{loggingv1.InputNameApplication, loggingv1.InputNameAudit, loggingv1.InputNameInfrastructure},
+				OutputRefs: []string{"loki-secure"},
+				// OutputTypeSpec: &loggingv1.OutputTypeSpec{
+				// 	Loki: &loggingv1.Loki{
+				// 		TenantKey: "kubernetes.namespace_name",
+				// 		LabelKeys: []string{"kubernetes.labels.foo"},
+				// 	},
+				// },
+			},
+			},
+		},
+	}
+	return clusterLogForwarder
+}
+
 // SetupWithManager sets up the controller with the Manager.
 func (r *GrafanaCloudLogForwarderReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&grafanav1alpha1.GrafanaCloudLogForwarder{}).
 		Owns(&corev1.Secret{}).
+		Owns(&loggingv1.ClusterLogging{}).
 		Complete(r)
 }
+
+// spec:
+//   collection:
+//     logs:
+//       fluentd: {}
+//       type: fluentd
+//   logStore:
+//     elasticsearch:
+//       nodeCount: 3
+//       redundancyPolicy: SingleRedundancy
+//       storage:
+//         size: 200G
+//         storageClassName: gp2
+//     retentionPolicy:
+//       application:
+//         maxAge: 7d
+//     type: elasticsearch
+//   managementState: Managed
+//   visualization:
+//     kibana:
+//       replicas: 1
+//     type: kibana

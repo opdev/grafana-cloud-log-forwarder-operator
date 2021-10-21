@@ -2,7 +2,8 @@ apiVersion: grafana.example.com/v1alpha1
 kind: GrafanaCloudLogForwarder
 metadata:
   name: grafanacloudlogforwarder-sample
+  namespace: openshift-logging
 spec:
-  secretname: "loki1"
-  username: "yoza"
-  apipassword: "test"
+  username: "111394"
+  apipassword: "eyJrIjoiNjY1MjQ1MDJlYzM2MGE1NTgxNzBmMDZhMDkyNDM4MDlhYjNkMWQzOSIsIm4iOiJ0ZXN0IiwiaWQiOjU1MTY5MX0="
+  url: "https://logs-prod-us-central1.grafana.net"
