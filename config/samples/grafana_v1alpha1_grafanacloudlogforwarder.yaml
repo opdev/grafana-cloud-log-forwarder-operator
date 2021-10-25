@@ -5,5 +5,5 @@ metadata:
   namespace: openshift-logging
 spec:
   username: "111394"
-  password: "*****"
-  url: "https://logs-prod-us-central1.grafana.net"
+  apipassword: "******"
+  url: "*******"
