@@ -47,6 +47,9 @@ type GrafanaCloudLogForwarderReconciler struct {
 //+kubebuilder:rbac:groups=grafana.example.com,resources=grafanacloudlogforwarders,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=grafana.example.com,resources=grafanacloudlogforwarders/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=grafana.example.com,resources=grafanacloudlogforwarders/finalizers,verbs=update
+//+kubebuilder:rbac:groups=logging.openshift.io,resources=clusterlogforwarders,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=logging.openshift.io,resources=clusterloggings,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;create;watch;patch;update;delete
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -109,7 +112,6 @@ func (r *GrafanaCloudLogForwarderReconciler) Reconcile(ctx context.Context, req 
 		if errors.IsNotFound(err) {
 
 			loggingInstance := r.clusterLoggingForGrafanaCloud(grafanaCloudLogForwarder)
-			//error in controller reference
 			if err := controllerutil.SetControllerReference(loggingSet, loggingInstance, r.Scheme); err != nil {
 				return ctrl.Result{}, err
 			}
@@ -217,7 +219,6 @@ func (r *GrafanaCloudLogForwarderReconciler) clusterLogForwarderForGrafanaCloud(
 			Outputs: []loggingv1.OutputSpec{{
 				Name: "loki-secure",
 				URL:  gclf.Spec.URL,
-				//add URL to types.go
 				Type: "loki",
 				OutputTypeSpec: loggingv1.OutputTypeSpec{
 					Loki: &loggingv1.Loki{
@@ -227,7 +228,6 @@ func (r *GrafanaCloudLogForwarderReconciler) clusterLogForwarderForGrafanaCloud(
 				},
 				Secret: &loggingv1.OutputSecretSpec{
 					Name: "loki1",
-					// hardcode secretname
 				},
 			},
 			},
