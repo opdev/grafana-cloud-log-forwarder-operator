@@ -12,7 +12,7 @@ metadata:
             "namespace": "openshift-logging"
           },
           "spec": {
-            "apipassword": "eyJrIjoiNjY1MjQ1MDJlYzM2MGE1NTgxNzBmMDZhMDkyNDM4MDlhYjNkMWQzOSIsIm4iOiJ0ZXN0IiwiaWQiOjU1MTY5MX0=",
+            "apipassword": "",
             "url": "https://logs-prod-us-central1.grafana.net",
             "username": "111394"
           }
@@ -33,6 +33,22 @@ spec:
       kind: GrafanaCloudLogForwarder
       name: grafanacloudlogforwarders.grafana.example.com
       version: v1alpha1
+      specDescriptors:
+      - displayName: Username
+        description: 
+        path: grafanacloudlogforwarder.username
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:text'
+      - displayName: Password
+        description: API password for accessing loki datasource
+        path: GrafanaCloudLogForwarder.password
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:password'
+      - displayName: Loki Datasource URL
+        description: URL of loki datasource
+        path: grafanacloudlogforwarder.url
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:text'
   description: MVP for forwarding clusterlogs to Loki datasource on Grafana Cloud
   displayName: GrafanaCloudLog
   icon:
