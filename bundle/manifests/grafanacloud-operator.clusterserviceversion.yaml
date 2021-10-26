@@ -2,6 +2,7 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: ClusterServiceVersion
 metadata:
   annotations:
+    "operatorframework.io/suggested-namespace": openshift-logging
     alm-examples: |-
       [
         {
@@ -12,9 +13,6 @@ metadata:
             "namespace": "openshift-logging"
           },
           "spec": {
-            "apipassword": "",
-            "url": "https://logs-prod-us-central1.grafana.net",
-            "username": "111394"
           }
         }
       ]
@@ -27,28 +25,27 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: GrafanaCloudLogForwarder is the Schema for the grafanacloudlogforwarders
-        API
+    - kind: GrafanaCloudLogForwarder
+      description: GrafanaCloudLogForwarder is the Schema for the grafanacloudlogforwarders API
       displayName: Grafana Cloud Log Forwarder
-      kind: GrafanaCloudLogForwarder
       name: grafanacloudlogforwarders.grafana.example.com
       version: v1alpha1
       specDescriptors:
+      - displayName: URL
+        description: URL of loki datasource
+        path: url
+        x-descriptors:
+          - 'urn:alm:descriptor:com.tectonic.ui:text'
       - displayName: Username
-        description: 
-        path: grafanacloudlogforwarder.username
+        description: The username from the loki endpoint
+        path: username
         x-descriptors:
           - 'urn:alm:descriptor:com.tectonic.ui:text'
       - displayName: Password
         description: API password for accessing loki datasource
-        path: GrafanaCloudLogForwarder.password
+        path: apipassword
         x-descriptors:
           - 'urn:alm:descriptor:com.tectonic.ui:password'
-      - displayName: Loki Datasource URL
-        description: URL of loki datasource
-        path: grafanacloudlogforwarder.url
-        x-descriptors:
-          - 'urn:alm:descriptor:com.tectonic.ui:text'
   description: MVP for forwarding clusterlogs to Loki datasource on Grafana Cloud
   displayName: GrafanaCloudLog
   icon:
@@ -230,11 +227,11 @@ spec:
   installModes:
   - supported: true
     type: OwnNamespace
-  - supported: false
+  - supported: true
     type: SingleNamespace
   - supported: false
     type: MultiNamespace
-  - supported: true
+  - supported: false
     type: AllNamespaces
   keywords:
   - clusterlogging
