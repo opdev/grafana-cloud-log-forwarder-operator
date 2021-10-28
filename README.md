@@ -38,9 +38,16 @@ There are three ways to run/install the Operator:
 
 * [Operator Lifecycle Manager](https://olm.operatorframework.io) CatalogSource and install via the OpenShift UI
 * The `operator-sdk run bundle` command
-* As a Go program outside the OpenShift cluster
+* `make run` outside the OpenShift cluster
 
-### Managed by the Operator Lifecycle Manager (OLM) in bundle format
+### OLM CatalogSource and install via the OpenShift UI
+
+TODO
+
+
+### Operator-SDK Run Bundle
+
+TODO
 
 Bundle your operator, then build and push the bundle image. The bundle target generates a bundle in the bundle directory containing manifests and metadata defining your operator. bundle-build and bundle-push build and push a bundle image defined by bundle.Dockerfile.
 
@@ -53,6 +60,12 @@ Make sure that the bundle image is public, and then run your bundle.
 ```sh
 operator-sdk run bundle quay.io/yoza/grafanacloud-operator-bundle:v0.0.1
 ```
+
+###`make run` outside the OpenShift cluster
+
+TODO
+
+
 
 ### Creating the CR:
 
@@ -114,33 +127,3 @@ oc delete -f config/samples/grafana_v1alpha1_grafanacloudlogforwarder.yaml
 ```
 
 **Note:** Make sure the above custom resource has been deleted before proceeding to stop the go program. Otherwise your cluster may have dangling custom resource objects that cannot be deleted.
-
-
-
-
-
-
-
-
-
-
-### As a Go program outside a cluster: 
-
-First, clone the repository and change to the directory:
-
-```sh
-git clone https://github.com/yashoza19/grafana-cloud-log-forwarder-operator
-cd grafanacloud-operator
-```
-
-Create the `openshift-logging` namespace and make sure that `Red Hat OpenShift Logging Operator` is also installed in the same namespace. 
-
-```sh
-oc new-project openshift-logging
-```
-
-To run the operator as a go program outside the cluster we will use the following command:
-
-```sh
-WATCH_NAMESPACE="openshift-logging" make run
-```
