@@ -75,7 +75,8 @@ oc create -f catalogsource.yaml
 
 Once, the CatalogSource is created, we will go to the Openshift UI and install the operator through the OperatorHub.
 
-[Installing operator through OperatorHub]()
+<img width="1142" alt="Screenshot1" src="https://user-images.githubusercontent.com/29581754/139328093-1a634f7e-4da4-4bec-946e-61979cdd8952.png">
+
 
 ### Operator-SDK Run Bundle
 
