@@ -77,6 +77,7 @@ Once, the CatalogSource is created, we will go to the Openshift UI and install t
 
 <img width="1142" alt="Screenshot1" src="https://user-images.githubusercontent.com/29581754/139328093-1a634f7e-4da4-4bec-946e-61979cdd8952.png">
 
+Installing the operator using OLM CatalogSource will automatically create the `openshift-logging` namespace and will deploy the Cluster logging operator in the same namespace.
 
 ### Operator-SDK Run Bundle
 
@@ -114,7 +115,7 @@ WATCH_NAMESPACE="openshift-logging" make run
 ```
 ## Creating the CR:
 
-Once the controller/operator is running, we want to create our custom CR in the `config/sample` directory. To create the CR, we first need to add the `Username`, `APIPassword`, and `URL` to the sample CR.
+Once the controller/operator is running, we want to create our custom CR in the `config/sample` directory. To create the CR, we first need to add the `URL`, `Username`, and `APIKey/Password` to the sample CR.
 
 The Sample CR should look like this:
 
@@ -125,9 +126,9 @@ metadata:
   name: grafanacloudlogforwarder-sample
   namespace: openshift-logging
 spec:
+  url: "******"
   username: "******"
   apipassword: "******"
-  url: "******"
 ```
 
 Create the GrafanaCloudLogForwarder CR that was modified:
@@ -163,6 +164,16 @@ oc get clusterlogforwarder
 NAME       AGE
 instance   3m48s
 ```
+
+Alternatively, the Custom Resource can be created from the UI as well.
+
+<img width="876" alt="Screen Shot 2021-10-28 at 4 16 50 PM" src="https://user-images.githubusercontent.com/29581754/139329181-e6013bdc-8502-498e-b3a6-1544b6222a45.png">
+
+## Cluster logs on loki datasource on GrafanaCloud
+
+After creating GrafanaCloudLogForwarder Custom Resource, we will head over to grafanacloud to check the cluster logs on Loki datasource
+
+<img width="1786" alt="Screen Shot 2021-10-28 at 4 24 09 PM" src="https://user-images.githubusercontent.com/29581754/139330368-8de136db-59c5-4563-94c0-e65e247cc608.png">
 
 ## Cleanup:
 
