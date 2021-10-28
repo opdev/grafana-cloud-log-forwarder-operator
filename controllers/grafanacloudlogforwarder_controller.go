@@ -110,7 +110,7 @@ func (r *GrafanaCloudLogForwarderReconciler) Reconcile(ctx context.Context, req 
 	err = r.Get(ctx, types.NamespacedName{Name: "instance", Namespace: grafanaCloudLogForwarder.Namespace}, logging)
 	if err != nil {
 		if errors.IsNotFound(err) {
-
+			// Define a new ClusterLogging object
 			loggingInstance := r.clusterLoggingForGrafanaCloud(grafanaCloudLogForwarder)
 			if err := controllerutil.SetControllerReference(loggingSet, loggingInstance, r.Scheme); err != nil {
 				return ctrl.Result{}, err
@@ -122,9 +122,10 @@ func (r *GrafanaCloudLogForwarderReconciler) Reconcile(ctx context.Context, req 
 				log.Error(err, "Failed to create new loggingInstance.", loggingInstance)
 				return ctrl.Result{}, err
 			}
-
+			// ClusterLogging created successfully - return and requeue after refreshInterval
 			return ctrl.Result{RequeueAfter: defaulRetryPeriod}, nil
 		}
+		// Error reading the object - requeue the request.
 		log.Error(err, "Failed to get ClusterLogging")
 		return ctrl.Result{}, err
 	}
@@ -133,7 +134,7 @@ func (r *GrafanaCloudLogForwarderReconciler) Reconcile(ctx context.Context, req 
 	err = r.Get(ctx, types.NamespacedName{Name: "instance", Namespace: grafanaCloudLogForwarder.Namespace}, logForward)
 	if err != nil {
 		if errors.IsNotFound(err) {
-
+			// Define a new ClusterLogForwarder object
 			logForwardingInstance := r.clusterLogForwarderForGrafanaCloud(grafanaCloudLogForwarder)
 			if err := controllerutil.SetControllerReference(loggingSet, logForwardingInstance, r.Scheme); err != nil {
 				return ctrl.Result{}, err
@@ -145,9 +146,10 @@ func (r *GrafanaCloudLogForwarderReconciler) Reconcile(ctx context.Context, req 
 				log.Error(err, "Failed to create new logForwarderInstance.", logForwardingInstance)
 				return ctrl.Result{}, err
 			}
-
+			// ClusterLogForwarder created successfully - return and requeue after refreshInterval
 			return ctrl.Result{RequeueAfter: defaulRetryPeriod}, nil
 		}
+		// Error reading the object - requeue the request.
 		log.Error(err, "Failed to get ClusterLogForwarder")
 		return ctrl.Result{}, err
 	}
@@ -187,22 +189,6 @@ func (r *GrafanaCloudLogForwarderReconciler) clusterLoggingForGrafanaCloud(gclf 
 					Type: loggingv1.LogCollectionTypeFluentd,
 				},
 			},
-			// LogStore: &loggingv1.LogStoreSpec{
-			// 	ElasticsearchSpec: loggingv1.ElasticsearchSpec{
-			// 		NodeCount:        3,
-			// 		RedundancyPolicy: "SingleRedundancy",
-			// 	},
-			// 	RetentionPolicy: &loggingv1.RetentionPoliciesSpec{
-			// 		App: &loggingv1.RetentionPolicySpec{
-			// 			MaxAge: "7d",
-			// 		},
-			// 	},
-			// 	Type: loggingv1.LogStoreTypeElasticsearch,
-			// },
-
-			// Visualization: &loggingv1.VisualizationSpec{
-			// 	Type: loggingv1.VisualizationTypeKibana,
-			// },
 		},
 	}
 	return clusterlogging
@@ -235,12 +221,6 @@ func (r *GrafanaCloudLogForwarderReconciler) clusterLogForwarderForGrafanaCloud(
 				Name:       "application-logs",
 				InputRefs:  []string{loggingv1.InputNameApplication, loggingv1.InputNameAudit, loggingv1.InputNameInfrastructure},
 				OutputRefs: []string{"loki-secure"},
-				// OutputTypeSpec: &loggingv1.OutputTypeSpec{
-				// 	Loki: &loggingv1.Loki{
-				// 		TenantKey: "kubernetes.namespace_name",
-				// 		LabelKeys: []string{"kubernetes.labels.foo"},
-				// 	},
-				// },
 			},
 			},
 		},
@@ -254,27 +234,6 @@ func (r *GrafanaCloudLogForwarderReconciler) SetupWithManager(mgr ctrl.Manager) 
 		For(&grafanav1alpha1.GrafanaCloudLogForwarder{}).
 		Owns(&corev1.Secret{}).
 		Owns(&loggingv1.ClusterLogging{}).
+		Owns(&loggingv1.ClusterLogForwarder{}).
 		Complete(r)
 }
-
-// spec:
-//   collection:
-//     logs:
-//       fluentd: {}
-//       type: fluentd
-//   logStore:
-//     elasticsearch:
-//       nodeCount: 3
-//       redundancyPolicy: SingleRedundancy
-//       storage:
-//         size: 200G
-//         storageClassName: gp2
-//     retentionPolicy:
-//       application:
-//         maxAge: 7d
-//     type: elasticsearch
-//   managementState: Managed
-//   visualization:
-//     kibana:
-//       replicas: 1
-//     type: kibana

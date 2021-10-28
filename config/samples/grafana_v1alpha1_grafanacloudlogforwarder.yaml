@@ -4,6 +4,6 @@ metadata:
   name: grafanacloudlogforwarder-sample
   namespace: openshift-logging
 spec:
-  username: "111394"
+  username: "******"
   apipassword: "******"
-  url: "*******"
+  url: "******"
