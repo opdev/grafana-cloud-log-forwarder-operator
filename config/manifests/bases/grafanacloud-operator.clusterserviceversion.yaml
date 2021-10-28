@@ -1,0 +1,50 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Basic Install
+  name: grafanacloud-operator.v0.0.0
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: GrafanaCloudLogForwarder is the Schema for the grafanacloudlogforwarders
+        API
+      displayName: Grafana Cloud Log Forwarder
+      kind: GrafanaCloudLogForwarder
+      name: grafanacloudlogforwarders.grafana.example.com
+      version: v1alpha1
+  description: MVP for forwarding clusterlogs to Loki datasource on Grafana Cloud
+  displayName: GrafanaCloudLog
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      deployments: null
+    strategy: ""
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - clusterlogging
+  - clusterlogforwarder
+  - grafanacloudlogforwarder
+  links:
+  - name: Grafanacloud Operator
+    url: https://grafanacloud-operator.domain
+  maintainers:
+  - email: yoza@redhat.com'
+    name: '''Yash'
+  maturity: alpha
+  provider:
+    name: Red Hat
+  version: 0.0.0

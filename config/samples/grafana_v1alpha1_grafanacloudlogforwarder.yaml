@@ -1,0 +1,9 @@
+apiVersion: grafana.example.com/v1alpha1
+kind: GrafanaCloudLogForwarder
+metadata:
+  name: grafanacloudlogforwarder-sample
+  namespace: openshift-logging
+spec:
+  username: "******"
+  apipassword: "******"
+  url: "******"

@@ -1,0 +1,70 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - grafana.example.com
+  resources:
+  - grafanacloudlogforwarders
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - grafana.example.com
+  resources:
+  - grafanacloudlogforwarders/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - grafana.example.com
+  resources:
+  - grafanacloudlogforwarders/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - logging.openshift.io
+  resources:
+  - clusterlogforwarders
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - logging.openshift.io
+  resources:
+  - clusterloggings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
