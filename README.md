@@ -4,74 +4,43 @@ The OpenShift Grafana Cloud Log Forwarder Operator forwards cluster logs from an
 
 ## Overview
 
-OpenShift 4x features a variety of Operators available for download in the embedded [OperatorHub](https://docs.openshift.com/container-platform/4.9/operators/understanding/olm-understanding-operatorhub.html)
-
 The OpenShift Grafana Cloud Log Forwarder Operator will automatically handle the installation of the [Cluster Logging Operator](https://github.com/openshift/cluster-logging-operator) and configure it to use a Grafana Cloud Loki datasource. The user only needs to provide the Grafana Cloud Loki datasource url, username, and api-key/passsword.
-gs (from system pods and node logs), and audit logs (special node logs with legal/security implications)
+
 
 ### GrafanaCloudLogForwarder Custom Resource
 
 Example for GrafanaCloudLogForwarder spec:
 
 ```
+apiVersion: grafana.example.com/v1alpha1
+kind: GrafanaCloudLogForwarder
+metadata:
+  name: grafanacloudlogforwarder-sample
+  namespace: openshift-logging
 spec:
+  url: "******"
   username: "******"
   apipassword: "******"
-  url: "******"
 ```
-
-Once the operator is deployed on an OCP cluster, it would watch for creation/deletion of GrafanaCloudLogForwarder CR. 
 
 ## Prerequisites
 
-Since the GrafanaCloudLogForwarder Operator is designed to run inside an OpenShift cluster, hence set it up first. For local tests we recommend to use one of the following solutions:
-* [crc](https://github.com/code-ready/crc), which creates a single-node openshift cluster on your laptop.
 
-The Red Hat OpenShift Logging Operator is responsible for handling ClusterLogging and ClusterLogForwarder CR. Red Hat OpenShift Logging Operator is only deployable to the `openshift-logging ` namespace. This namespace must be explicitly created by a cluster administrator (e.g. `oc new-project openshift-logging`). Red Hat OpenShift Logging Operator operator has been added to the list of dependency package in our bundle, to ensure that it is installed prior to the installation of GrafanaCloudLogForwarder Operator.
+Since the GrafanaCloudLogForwarder Operator is designed to run inside an OpenShift cluster, hence set it up first. dFor local tests we recommend to use one of the following solutions:
+
+* [OpenShift 4.8 or greater](try.openshift.com), which can be deployed via bare-metal, AWS, GCP, Azure, etc.
+
+To run a single-node OpenShift cluster on your laptop, you can try CRC](https://github.com/code-ready/crc)
 
 ## Deployment
 
-There are two ways to run the operator:
+There are three ways to run/install the Operator:
 
-* As Go program outside a cluster
-* Managed by the Operator Lifecycle Manager (OLM) in bundle format
+* [Operator Lifecycle Manager](https://olm.operatorframework.io) CatalogSource and install via the OpenShift UI
+* The `operator-sdk run bundle` command
+* As a Go program outside the OpenShift cluster
 
-### As Go program outside a cluster: 
-
-The GrafanaCloudLogForwarder Operator can be installed simply by running it as a go program outside the cluster:
-
-First, clone the repository and change to the directory:
-
-```sh
-git clone https://github.com/yashoza19/GrafanaLogForwarder-Operator.git
-cd grafanacloud-operator
-```
-
-We would have to create the `openshift-logging` namespace and make sure that `Red Hat OpenShift Logging Operator` is also installed in the same namespace. 
-
-```sh
-oc new-project openshift-logging
-```
-
-Make sure you can currently access the namespace:
-
-```sh
-oc project
-```
-
-To run the operator as a go program outside the cluster we will use the following command:
-
-```sh
-WATCH_NAMESPACE="openshift-logging" make run
-```
-
-### Managed by the Operator Lifecycle Manager (OLM) in bundle format:
-
-Firstly we would want to install [OLM](https://sdk.operatorframework.io/docs/olm-integration/tutorial-bundle/#enabling-olm).
-
-```sh
-operator-sdk olm install
-```
+### Managed by the Operator Lifecycle Manager (OLM) in bundle format
 
 Bundle your operator, then build and push the bundle image. The bundle target generates a bundle in the bundle directory containing manifests and metadata defining your operator. bundle-build and bundle-push build and push a bundle image defined by bundle.Dockerfile.
 
@@ -145,3 +114,33 @@ oc delete -f config/samples/grafana_v1alpha1_grafanacloudlogforwarder.yaml
 ```
 
 **Note:** Make sure the above custom resource has been deleted before proceeding to stop the go program. Otherwise your cluster may have dangling custom resource objects that cannot be deleted.
+
+
+
+
+
+
+
+
+
+
+### As a Go program outside a cluster: 
+
+First, clone the repository and change to the directory:
+
+```sh
+git clone https://github.com/yashoza19/grafana-cloud-log-forwarder-operator
+cd grafanacloud-operator
+```
+
+Create the `openshift-logging` namespace and make sure that `Red Hat OpenShift Logging Operator` is also installed in the same namespace. 
+
+```sh
+oc new-project openshift-logging
+```
+
+To run the operator as a go program outside the cluster we will use the following command:
+
+```sh
+WATCH_NAMESPACE="openshift-logging" make run
+```
