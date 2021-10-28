@@ -169,7 +169,7 @@ Alternatively, the Custom Resource can be created from the UI as well.
 
 <img width="876" alt="Screen Shot 2021-10-28 at 4 16 50 PM" src="https://user-images.githubusercontent.com/29581754/139329181-e6013bdc-8502-498e-b3a6-1544b6222a45.png">
 
-## Cluster logs on loki datasource on GrafanaCloud
+## Cluster logs in loki datasource on GrafanaCloud
 
 After creating GrafanaCloudLogForwarder Custom Resource, we will head over to grafanacloud to check the cluster logs on Loki datasource
 
