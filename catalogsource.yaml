@@ -1,0 +1,10 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: my-test-operators
+  namespace: openshift-marketplace
+spec:
+  sourceType: grpc
+  image: quay.io/yoza/grafanacloud-operator-index:latest
+  displayName: Test Operators
+  publisher: Red Hat Partner
