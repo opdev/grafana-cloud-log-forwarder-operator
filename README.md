@@ -42,12 +42,42 @@ There are three ways to run/install the Operator:
 
 ### OLM CatalogSource and install via the OpenShift UI
 
-TODO
+To install the operator through the Openshift UI, we first create a index:
 
+```sh
+opm index add --bundles quay.io/yoza/grafanacloud-operator-bundle:v0.0.1 --tag quay.io/yoza/grafanacloud-operator-index:latest -c docker
+```
+
+Once the index is created, we will push the index image to any repository
+
+```sh
+docker push quay.io/yoza/grafanacloud-operator-index:latest
+```
+
+Next, we will be creating a CatalogSource and adding the newly created operator index image to the catalogSource. The CatalogSource file is present in this repository
+
+```sh
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: my-test-operators
+  namespace: openshift-marketplace
+spec:
+  sourceType: grpc
+  image: quay.io/yoza/grafanacloud-operator-index:latest
+  displayName: Test Operators
+  publisher: Red Hat Partner
+```
+
+```sh
+oc create -f catalogsource.yaml
+```
+
+Once, the CatalogSource is created, we will go to the Openshift UI and install the operator through the OperatorHub.
+
+[Installing operator through OperatorHub]()
 
 ### Operator-SDK Run Bundle
-
-TODO
 
 Bundle your operator, then build and push the bundle image. The bundle target generates a bundle in the bundle directory containing manifests and metadata defining your operator. bundle-build and bundle-push build and push a bundle image defined by bundle.Dockerfile.
 
@@ -55,19 +85,33 @@ Bundle your operator, then build and push the bundle image. The bundle target ge
 make bundle bundle-build bundle-push
 ```
 
-Make sure that the bundle image is public, and then run your bundle.
+Make sure that the bundle image is public. Also, make sure that you are using `openshift-logging` namespace before running the `run bundle` command
 
 ```sh
 operator-sdk run bundle quay.io/yoza/grafanacloud-operator-bundle:v0.0.1
 ```
 
-###`make run` outside the OpenShift cluster
+### Run outside the OpenShift cluster(`make run`)
 
-TODO
+First, clone the repository and change to the directory:
 
+```sh
+git clone https://github.com/yashoza19/grafana-cloud-log-forwarder-operator
+cd grafanacloud-operator
+```
 
+Create the `openshift-logging` namespace and make sure that `Red Hat OpenShift Logging Operator` is also installed in the same namespace. 
 
-### Creating the CR:
+```sh
+oc new-project openshift-logging
+```
+
+To run the operator as a go program outside the cluster we will use the following command:
+
+```sh
+WATCH_NAMESPACE="openshift-logging" make run
+```
+## Creating the CR:
 
 Once the controller/operator is running, we want to create our custom CR in the `config/sample` directory. To create the CR, we first need to add the `Username`, `APIPassword`, and `URL` to the sample CR.
 
@@ -119,7 +163,7 @@ NAME       AGE
 instance   3m48s
 ```
 
-### Cleanup:
+## Cleanup:
 
 Clean up the GrafanaCloudLogForwarder CR first:
 ```
