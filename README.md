@@ -1,18 +1,17 @@
-# GrafanaCloudLogForwarder-Operator
+# OpenShift Grafana Cloud Log Forwarder
 
-The GrafanaCloudLogForwarder Operator forwards the cluster logs from OCP cluster to the Grafana Cloud Loki datasource. GrafanaCloudLogForwarder operator is a collection of Kubernetes custom resource definitions (CRDs) and custom controllers working together to extend the Kubernetes API and manage cluster-logging object(ClusterLogging and ClusterLogForwarder).
+The OpenShift Grafana Cloud Log Forwarder Operator forwards cluster logs from an OpenShift 4x cluster cluster to a [Grafana Cloud](https://grafana.com/products/cloud/) Loki datasource. The operator was built with [operator-sdk](https://sdk.operatorframework.io).
 
 ## Overview
 
-This Operator will handle the creatation of a secret that includes the APIKey and Username for loki datasource and Cluster Logging Operator CRs(ClusterLogging and ClusterLogForwarder).
+OpenShift 4x features a variety of Operators available for download in the embedded [OperatorHub](https://docs.openshift.com/container-platform/4.9/operators/understanding/olm-understanding-operatorhub.html)
 
-The CLO (Cluster Logging Operator) provides a set of APIs to control collection and forwarding of logs from all pods and nodes in a cluster. This includes application logs (from regular pods), infrastructure logs (from system pods and node logs), and audit logs (special node logs with legal/security implications)
+The OpenShift Grafana Cloud Log Forwarder Operator will automatically handle the installation of the [Cluster Logging Operator](https://github.com/openshift/cluster-logging-operator) and configure it to use a Grafana Cloud Loki datasource. The user only needs to provide the Grafana Cloud Loki datasource url, username, and api-key/passsword.
+gs (from system pods and node logs), and audit logs (special node logs with legal/security implications)
 
-### GrafanaCloudLogForwarder CR:
+### GrafanaCloudLogForwarder Custom Resource
 
-The spec section of the CR is currently designed in a way to accomodate only Username, APIKey and Loki datasource URL from the user.
-
-Example for GrafanaCloudLogForwarder Specs:
+Example for GrafanaCloudLogForwarder spec:
 
 ```
 spec:
