@@ -95,7 +95,7 @@ To run the operator as a go program outside the cluster we will use the followin
 ```sh
 WATCH_NAMESPACE="openshift-logging" make run
 ```
-## Creating the CR:
+## Creating the CR
 
 Once the controller/operator is running, we want to create our custom CR in the `config/sample` directory. To create the CR, we first need to add the `URL`, `Username`, and `APIKey/Password` to the sample CR.
 
@@ -157,7 +157,7 @@ After creating GrafanaCloudLogForwarder Custom Resource, we will head over to gr
 
 <img width="1786" alt="Screen Shot 2021-10-28 at 4 24 09 PM" src="https://user-images.githubusercontent.com/29581754/139330368-8de136db-59c5-4563-94c0-e65e247cc608.png">
 
-## Cleanup:
+## Cleanup
 
 Clean up the GrafanaCloudLogForwarder CR first:
 ```
@@ -165,3 +165,10 @@ oc delete -f config/samples/grafana_v1alpha1_grafanacloudlogforwarder.yaml
 ```
 
 **Note:** Make sure the above custom resource has been deleted before proceeding to stop the go program. Otherwise your cluster may have dangling custom resource objects that cannot be deleted.
+
+## Useful Links
+ 
+1. [Getting Started with building Go-based Operator](https://sdk.operatorframework.io/docs/building-operators/golang/tutorial/)
+2. [Adding 3rd party resources to your Operator](https://sdk.operatorframework.io/docs/building-operators/golang/advanced-topics/#adding-3rd-party-resources-to-your-operator)
+3. [Using 3rd party APIs in operator-sdk projects](https://developers.redhat.com/blog/2020/02/04/how-to-use-third-party-apis-in-operator-sdk-projects#step_4__use_the_api_in_the_controllers)
+4. [Deploying on OpenShift using opm](https://redhat-connect.gitbook.io/certified-operator-guide/ocp-deployment/openshift-deployment)
