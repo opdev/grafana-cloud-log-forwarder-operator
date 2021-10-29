@@ -207,10 +207,7 @@ func (r *GrafanaCloudLogForwarderReconciler) clusterLogForwarderForGrafanaCloud(
 				URL:  gclf.Spec.URL,
 				Type: "loki",
 				OutputTypeSpec: loggingv1.OutputTypeSpec{
-					Loki: &loggingv1.Loki{
-						TenantKey: "kubernetes.namespace_name",
-						LabelKeys: []string{"kubernetes.labels.foo"},
-					},
+					Loki: &loggingv1.Loki{},
 				},
 				Secret: &loggingv1.OutputSecretSpec{
 					Name: "loki1",
