@@ -1,44 +1,24 @@
 # OpenShift Grafana Cloud Log Forwarder
 
-The OpenShift Grafana Cloud Log Forwarder Operator forwards cluster logs from an OpenShift 4x cluster cluster to a [Grafana Cloud](https://grafana.com/products/cloud/) Loki datasource. The operator was built with [operator-sdk](https://sdk.operatorframework.io).
+The OpenShift Grafana Cloud Log Forwarder Operator forwards cluster logs from an [OpenShift](https://try.openshift.com) cluster to a [Grafana Cloud](https://grafana.com/products/cloud/) Loki datasource. The Operator was built with [operator-sdk](https://sdk.operatorframework.io).
 
 ## Overview
 
 The OpenShift Grafana Cloud Log Forwarder Operator will automatically handle the installation of the [Cluster Logging Operator](https://github.com/openshift/cluster-logging-operator) and configure it to use a Grafana Cloud Loki datasource. The user only needs to provide the Grafana Cloud Loki datasource url, username, and api-key/passsword.
 
-
-### GrafanaCloudLogForwarder Custom Resource
-
-Example for GrafanaCloudLogForwarder spec:
-
-```
-apiVersion: grafana.example.com/v1alpha1
-kind: GrafanaCloudLogForwarder
-metadata:
-  name: grafanacloudlogforwarder-sample
-  namespace: openshift-logging
-spec:
-  url: "******"
-  username: "******"
-  apipassword: "******"
-```
-
 ## Prerequisites
 
+* OpenShift 4.8 or greater
 
-Since the GrafanaCloudLogForwarder Operator is designed to run inside an OpenShift cluster, hence set it up first. dFor local tests we recommend to use one of the following solutions:
-
-* [OpenShift 4.8 or greater](try.openshift.com), which can be deployed via bare-metal, AWS, GCP, Azure, etc.
-
-To run a single-node OpenShift cluster on your laptop, you can try CRC](https://github.com/code-ready/crc)
+To run a single-node OpenShift cluster on your laptop, you can try [CRC](https://github.com/code-ready/crc).
 
 ## Deployment
 
 There are three ways to run/install the Operator:
 
-* [Operator Lifecycle Manager](https://olm.operatorframework.io) CatalogSource and install via the OpenShift UI
-* The `operator-sdk run bundle` command
-* `make run` outside the OpenShift cluster
+* Create a [Operator Lifecycle Manager CatalogSource](https://olm.operatorframework.io/docs/concepts/crds/catalogsource/) and install the Operator via the OpenShift Console/UI
+* Run the `operator-sdk run bundle` command
+* Run the Operator-SDK's `make run` target outside the OpenShift cluster.
 
 ### OLM CatalogSource and install via the OpenShift UI
 
