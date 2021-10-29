@@ -55,7 +55,9 @@ oc create -f catalogsource.yaml
 
 Once, the CatalogSource is created, we will go to the Openshift UI and install the Operator through the OperatorHub.
 
-<img width="1142" alt="Screenshot1" src="https://user-images.githubusercontent.com/29581754/139328093-1a634f7e-4da4-4bec-946e-61979cdd8952.png">
+![OperatorHub Tile](https://user-images.githubusercontent.com/4207880/139361897-3210dcbf-3289-44ef-b3f0-e99c107ddf3e.png)
+
+![Install Operator](https://user-images.githubusercontent.com/4207880/139362045-2d141ced-bf0b-4c3b-89ec-e12b7de2c968.png)
 
 Installing the Operator using OLM CatalogSource will automatically create the `openshift-logging` namespace and will deploy the Cluster logging Operator to the same namespace.
 
