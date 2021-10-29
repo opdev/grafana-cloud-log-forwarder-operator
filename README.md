@@ -22,7 +22,7 @@ There are three ways to run/install the Operator:
 
 ### OLM CatalogSource and install via the OpenShift UI
 
-To install the operator through the Openshift UI, we first create a index:
+To install the Operator through the Openshift UI, we first create a index:
 
 ```sh
 opm index add --bundles quay.io/yoza/grafanacloud-operator-bundle:v0.0.1 --tag quay.io/yoza/grafanacloud-operator-index:latest -c docker
@@ -53,15 +53,15 @@ spec:
 oc create -f catalogsource.yaml
 ```
 
-Once, the CatalogSource is created, we will go to the Openshift UI and install the operator through the OperatorHub.
+Once, the CatalogSource is created, we will go to the Openshift UI and install the Operator through the OperatorHub.
 
 <img width="1142" alt="Screenshot1" src="https://user-images.githubusercontent.com/29581754/139328093-1a634f7e-4da4-4bec-946e-61979cdd8952.png">
 
-Installing the operator using OLM CatalogSource will automatically create the `openshift-logging` namespace and will deploy the Cluster logging operator in the same namespace.
+Installing the Operator using OLM CatalogSource will automatically create the `openshift-logging` namespace and will deploy the Cluster logging Operator to the same namespace.
 
 ### Operator-SDK Run Bundle
 
-Bundle your operator, then build and push the bundle image. The bundle target generates a bundle in the bundle directory containing manifests and metadata defining your operator. bundle-build and bundle-push build and push a bundle image defined by bundle.Dockerfile.
+Bundle your operator, then build and push the bundle image. The bundle target generates a bundle in the bundle directory containing manifests and metadata defining your Operator. bundle-build and bundle-push build and push a bundle image defined by bundle.Dockerfile.
 
 ```sh
 make bundle bundle-build bundle-push
