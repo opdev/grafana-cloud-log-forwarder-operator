@@ -25,7 +25,7 @@ There are three ways to run/install the Operator:
 To install the Operator through the Openshift UI, we first create a index:
 
 ```sh
-opm index add --bundles quay.io/yoza/grafanacloud-operator-bundle:v0.0.1 --tag quay.io/yoza/grafanacloud-operator-index:latest -c docker
+opm index add --bundles quay.io/yoza/grafanacloud-operator-bundle:v1.0.0 --tag quay.io/yoza/grafanacloud-operator-index:1.0.0 -c docker
 ```
 
 Once the index is created, we will push the index image to any repository
@@ -44,7 +44,7 @@ metadata:
   namespace: openshift-marketplace
 spec:
   sourceType: grpc
-  image: quay.io/yoza/grafanacloud-operator-index:latest
+  image: quay.io/yoza/grafanacloud-operator-index:1.0.0
   displayName: Test Operators
   publisher: Red Hat Partner
 ```
@@ -72,7 +72,7 @@ make bundle bundle-build bundle-push
 Make sure that the bundle image is public. Also, make sure that you are using `openshift-logging` namespace before running the `run bundle` command
 
 ```sh
-operator-sdk run bundle quay.io/yoza/grafanacloud-operator-bundle:v0.0.1
+operator-sdk run bundle quay.io/yoza/grafanacloud-operator-bundle:v1.0.0
 ```
 
 ### Run outside the OpenShift cluster(`make run`)
