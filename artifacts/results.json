@@ -1,0 +1,36 @@
+{
+    "image": "quay.io/yoza/grafanacloud-operator-bundle:v1.0.0",
+    "passed": true,
+    "certification_hash": "1b1bf2c209ab3f7f7e403e56c0bd45f1",
+    "test_library": {
+        "name": "github.com/redhat-openshift-ecosystem/openshift-preflight",
+        "version": "0.0.0",
+        "commit": "e97c94ce88a6039637647b941d055d39c0ea98c5"
+    },
+    "results": {
+        "passed": [
+            {
+                "name": "ScorecardBasicSpecCheck",
+                "elapsed_time": 4874,
+                "description": "Check to make sure that all CRs have a spec block."
+            },
+            {
+                "name": "ScorecardOlmSuiteCheck",
+                "elapsed_time": 5862,
+                "description": "Operator-sdk scorecard OLM Test Suite Check"
+            },
+            {
+                "name": "DeployableByOLM",
+                "elapsed_time": 64708,
+                "description": "Checking if the operator could be deployed by OLM, and images are from approved sources"
+            },
+            {
+                "name": "ValidateOperatorBundle",
+                "elapsed_time": 104,
+                "description": "Validating Bundle image that checks if it can validate the content and format of the operator bundle"
+            }
+        ],
+        "failed": [],
+        "errors": []
+    }
+}

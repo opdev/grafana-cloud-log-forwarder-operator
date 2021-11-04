@@ -31,7 +31,7 @@ opm index add --bundles quay.io/yoza/grafanacloud-operator-bundle:v1.0.0 --tag q
 Once the index is created, we will push the index image to any repository
 
 ```sh
-docker push quay.io/yoza/grafanacloud-operator-index:latest
+docker push quay.io/yoza/grafanacloud-operator-index:1.0.0
 ```
 
 Next, we will be creating a CatalogSource and adding the newly created operator index image to the catalogSource. The CatalogSource file is present in this repository

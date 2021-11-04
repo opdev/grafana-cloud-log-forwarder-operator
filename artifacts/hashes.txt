@@ -1,0 +1,8 @@
+14cf0b84284818f3e7fddd28765bcd0a  ./manifests/grafanacloud-operator-manager-config_v1_configmap.yaml
+1aa731967dbec50a9e923fad9f4b02ca  ./metadata/annotations.yaml
+587c28aeb03e1c9497469d1e9ed1f28f  ./manifests/grafanacloud-operator-controller-manager-metrics-service_v1_service.yaml
+65046661587a2f38833211bbb3ceab0a  ./manifests/grafana.example.com_grafanacloudlogforwarders.yaml
+662c9631afb8b52009eac87d66a3d5ed  ./metadata/dependencies.yaml
+afa3b77d898de6e13aebc9bd02854ec1  ./manifests/grafanacloud-operator-metrics-reader_rbac.authorization.k8s.io_v1_clusterrole.yaml
+b0fc42804453e5f96ec02d9c0069ab1e  ./tests/scorecard/config.yaml
+f54fd9cf4011d5710b1a185adedbc34a  ./manifests/grafanacloud-operator.clusterserviceversion.yaml

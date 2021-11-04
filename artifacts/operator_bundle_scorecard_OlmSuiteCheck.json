@@ -1,0 +1,35 @@
+{
+  "kind": "TestList",
+  "apiVersion": "scorecard.operatorframework.io/v1alpha3",
+  "items": [
+    {
+      "kind": "Test",
+      "apiVersion": "scorecard.operatorframework.io/v1alpha3",
+      "spec": {
+        "image": "quay.io/operator-framework/scorecard-test@sha256:66023c1e0f6021407811fb2b1d42aa16af6f41f2c791b2bdeb6ba696d000cf5d",
+        "entrypoint": [
+          "scorecard-test",
+          "olm-bundle-validation"
+        ],
+        "labels": {
+          "suite": "olm",
+          "test": "olm-bundle-validation-test"
+        },
+        "storage": {
+          "spec": {
+            "mountPath": {}
+          }
+        }
+      },
+      "status": {
+        "results": [
+          {
+            "name": "olm-bundle-validation",
+            "log": "time=\"2021-11-04T14:35:24Z\" level=debug msg=\"Found manifests directory\" name=bundle-test\ntime=\"2021-11-04T14:35:24Z\" level=debug msg=\"Found metadata directory\" name=bundle-test\ntime=\"2021-11-04T14:35:24Z\" level=debug msg=\"Getting mediaType info from manifests directory\" name=bundle-test\ntime=\"2021-11-04T14:35:24Z\" level=debug msg=\"Found annotations file\" name=bundle-test\ntime=\"2021-11-04T14:35:24Z\" level=debug msg=\"Found dependencies file\" name=bundle-test\n",
+            "state": "pass"
+          }
+        ]
+      }
+    }
+  ]
+}
