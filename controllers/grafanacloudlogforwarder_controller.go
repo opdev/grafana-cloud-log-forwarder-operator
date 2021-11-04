@@ -44,9 +44,9 @@ type GrafanaCloudLogForwarderReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=grafana.example.com,resources=grafanacloudlogforwarders,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=grafana.example.com,resources=grafanacloudlogforwarders/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=grafana.example.com,resources=grafanacloudlogforwarders/finalizers,verbs=update
+//+kubebuilder:rbac:groups=logs.grafana.com,resources=grafanacloudlogforwarders,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=logs.grafana.com,resources=grafanacloudlogforwarders/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=logs.grafana.com,resources=grafanacloudlogforwarders/finalizers,verbs=update
 //+kubebuilder:rbac:groups=logging.openshift.io,resources=clusterlogforwarders,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=logging.openshift.io,resources=clusterloggings,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;create;watch;patch;update;delete

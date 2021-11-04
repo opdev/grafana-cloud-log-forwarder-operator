@@ -19,32 +19,6 @@ rules:
   - update
   - watch
 - apiGroups:
-  - grafana.example.com
-  resources:
-  - grafanacloudlogforwarders
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - grafana.example.com
-  resources:
-  - grafanacloudlogforwarders/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - grafana.example.com
-  resources:
-  - grafanacloudlogforwarders/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
   - logging.openshift.io
   resources:
   - clusterlogforwarders
@@ -68,3 +42,29 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - logs.grafana.com
+  resources:
+  - grafanacloudlogforwarders
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - logs.grafana.com
+  resources:
+  - grafanacloudlogforwarders/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - logs.grafana.com
+  resources:
+  - grafanacloudlogforwarders/status
+  verbs:
+  - get
+  - patch
+  - update

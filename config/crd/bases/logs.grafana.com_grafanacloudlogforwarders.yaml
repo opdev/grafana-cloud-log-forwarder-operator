@@ -6,9 +6,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.6.1
   creationTimestamp: null
-  name: grafanacloudlogforwarders.grafana.example.com
+  name: grafanacloudlogforwarders.logs.grafana.com
 spec:
-  group: grafana.example.com
+  group: logs.grafana.com
   names:
     kind: GrafanaCloudLogForwarder
     listKind: GrafanaCloudLogForwarderList

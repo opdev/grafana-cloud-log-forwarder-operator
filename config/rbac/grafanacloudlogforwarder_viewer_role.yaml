@@ -5,7 +5,7 @@ metadata:
   name: grafanacloudlogforwarder-viewer-role
 rules:
 - apiGroups:
-  - grafana.example.com
+  - logs.grafana.com
   resources:
   - grafanacloudlogforwarders
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - grafana.example.com
+  - logs.grafana.com
   resources:
   - grafanacloudlogforwarders/status
   verbs:

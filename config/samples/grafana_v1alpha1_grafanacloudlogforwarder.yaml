@@ -1,4 +1,4 @@
-apiVersion: grafana.example.com/v1alpha1
+apiVersion: logs.grafana.com/v1alpha1
 kind: GrafanaCloudLogForwarder
 metadata:
   name: grafanacloudlogforwarder-sample

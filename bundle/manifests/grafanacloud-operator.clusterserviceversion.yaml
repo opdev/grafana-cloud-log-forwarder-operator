@@ -6,7 +6,7 @@ metadata:
     alm-examples: |-
       [
         {
-          "apiVersion": "grafana.example.com/v1alpha1",
+          "apiVersion": "logs.grafana.com/v1alpha1",
           "kind": "GrafanaCloudLogForwarder",
           "metadata": {
             "name": "grafanacloudlogforwarder-sample",
@@ -28,7 +28,7 @@ spec:
     - kind: GrafanaCloudLogForwarder
       description: GrafanaCloudLogForwarder is the Schema for the grafanacloudlogforwarders API
       displayName: Grafana Cloud Log Forwarder
-      name: grafanacloudlogforwarders.grafana.example.com
+      name: grafanacloudlogforwarders.logs.grafana.com
       version: v1alpha1
       specDescriptors:
       - displayName: URL
@@ -68,7 +68,7 @@ spec:
           - update
           - watch
         - apiGroups:
-          - grafana.example.com
+          - logs.grafana.com
           resources:
           - grafanacloudlogforwarders
           verbs:
@@ -80,13 +80,13 @@ spec:
           - update
           - watch
         - apiGroups:
-          - grafana.example.com
+          - logs.grafana.com
           resources:
           - grafanacloudlogforwarders/finalizers
           verbs:
           - update
         - apiGroups:
-          - grafana.example.com
+          - logs.grafana.com
           resources:
           - grafanacloudlogforwarders/status
           verbs:

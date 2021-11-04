@@ -1,4 +1,4 @@
-domain: example.com
+domain: grafana.com
 layout:
 - go.kubebuilder.io/v3
 plugins:
@@ -11,8 +11,8 @@ resources:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: example.com
-  group: grafana
+  domain: grafana.com
+  group: logs
   kind: GrafanaCloudLogForwarder
   path: github.com/example/grafana-operator/api/v1alpha1
   version: v1alpha1

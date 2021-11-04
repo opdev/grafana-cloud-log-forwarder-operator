@@ -14,7 +14,7 @@ spec:
         API
       displayName: Grafana Cloud Log Forwarder
       kind: GrafanaCloudLogForwarder
-      name: grafanacloudlogforwarders.grafana.example.com
+      name: grafanacloudlogforwarders.logs.grafana.com
       version: v1alpha1
   description: MVP for forwarding clusterlogs to Loki datasource on Grafana Cloud
   displayName: GrafanaCloudLog

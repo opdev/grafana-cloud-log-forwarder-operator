@@ -2,7 +2,7 @@
 # since it depends on service name and namespace that are out of this kustomize package.
 # It should be run by config/default
 resources:
-- bases/grafana.example.com_grafanacloudlogforwarders.yaml
+- bases/logs.grafana.com_grafanacloudlogforwarders.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patchesStrategicMerge:

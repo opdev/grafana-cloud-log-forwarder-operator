@@ -102,7 +102,7 @@ Once the controller/operator is running, we want to create our custom CR in the 
 The Sample CR should look like this:
 
 ```
-apiVersion: grafana.example.com/v1alpha1
+apiVersion: logs.grafana.com/v1alpha1
 kind: GrafanaCloudLogForwarder
 metadata:
   name: grafanacloudlogforwarder-sample
