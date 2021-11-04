@@ -5,6 +5,6 @@ metadata:
   namespace: openshift-marketplace
 spec:
   sourceType: grpc
-  image: quay.io/yoza/grafanacloud-operator-index:1.0.0
+  image: quay.io/yoza/grafanacloud-operator-index:1.0.1
   displayName: Test Operators
   publisher: Red Hat Partner
