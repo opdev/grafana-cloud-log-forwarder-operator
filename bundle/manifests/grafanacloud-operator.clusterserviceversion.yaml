@@ -162,7 +162,7 @@ spec:
                 - --leader-elect
                 command:
                 - /manager
-                image: quay.io/yoza/grafanacloud-operator:1.0.1
+                image: quay.io/opdev/grafanacloud-operator:1.0.1
                 livenessProbe:
                   httpGet:
                     path: /healthz
