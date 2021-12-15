@@ -24,19 +24,20 @@ import (
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // GrafanaCloudLogForwarderSpec defines the desired state of GrafanaCloudLogForwarder
+//+operator-sdk:csv:customresourcedefinitions:displayName="Grafana Cloud Log Forwarder"
 type GrafanaCloudLogForwarderSpec struct {
 
-	// // Secret name that will be used for storing the loki username and API Key
-	// SecretName string `json:"secretname"`
+	// URL to loki datasource
+	//+operator-sdk:csv:customresourcedefinitions:type=spec,displayName="URL",xDescriptors={"urn:alm:descriptor:com.tectonic.ui:text"}
+	URL string `json:"url"`
 
 	// The username from the loki endpoint
+	//+operator-sdk:csv:customresourcedefinitions:type=spec,displayName="Username",xDescriptors={"urn:alm:descriptor:com.tectonic.ui:text"}
 	Username string `json:"username"`
 
 	// Enter API key to authenticate clusterLogForwarder to loki datasource
+	//+operator-sdk:csv:customresourcedefinitions:type=spec,displayName="APIPassword",xDescriptors={"urn:alm:descriptor:com.tectonic.ui:password"}
 	APIPassword string `json:"apipassword"`
-
-	// URL to loki datasource
-	URL string `json:"url"`
 }
 
 // GrafanaCloudLogForwarderStatus defines the observed state of GrafanaCloudLogForwarder
